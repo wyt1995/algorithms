@@ -5,7 +5,6 @@
  *
  *  This program takes the name of a file as a command-line argument.
  *  From that file, it
- *
  *    - Reads the grid size N of the percolation system.
  *    - Creates an N-by-N grid of sites (initially all blocked)
  *    - Reads in a sequence of sites (row i, column j) to open.

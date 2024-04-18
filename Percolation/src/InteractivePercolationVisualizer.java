@@ -35,7 +35,6 @@ public class InteractivePercolationVisualizer {
         while (true) {
             // detected mouse click
             if (StdDraw.mousePressed()) {
-
                 // screen coordinates
                 double x = StdDraw.mouseX();
                 double y = StdDraw.mouseY();
