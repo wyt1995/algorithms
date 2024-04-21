@@ -4,8 +4,7 @@ import java.util.List;
 
 public class Board {
     private final int size;
-    private int[][] board;
-    private int[][] goal;
+    private final int[][] board;
 
     // create a board from an n-by-n array of tiles,
     // where tiles[row][col] = tile at (row, col)
@@ -15,14 +14,6 @@ public class Board {
         for (int i = 0; i < size; i++) {
             System.arraycopy(tiles[i], 0, board[i], 0, size);
         }
-
-        this.goal = new int[size][size];
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-                goal[i][j] = size * i + j + 1;
-            }
-        }
-        goal[size - 1][size - 1] = 0;
     }
 
     // string representation of this board
@@ -48,12 +39,13 @@ public class Board {
         int count = 0;
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
-                if (board[i][j] != goal[i][j]) {
+                int goal = (i == j && i == size - 1) ? 0 : size * i + j + 1;
+                if (board[i][j] != goal && board[i][j] != 0) {
                     count += 1;
                 }
             }
         }
-        return count - 1;
+        return count;
     }
 
     // sum of Manhattan distances between tiles and goal
@@ -61,11 +53,12 @@ public class Board {
         int diff = 0;
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
-                if (board[i][j] == goal[i][j] || board[i][j] == 0) {
+                int goal = (i == j && i == size - 1) ? 0 : size * i + j + 1;
+                if (board[i][j] == goal || board[i][j] == 0) {
                     continue;
                 }
-                int x = Math.abs(board[i][j] / size - i);
-                int y = Math.abs(board[i][j] % size - 1 - j);
+                int x = Math.abs((board[i][j] - 1) / size - i);
+                int y = Math.abs((board[i][j] - 1) % size - j);
                 diff += x + y;
             }
         }
@@ -76,7 +69,8 @@ public class Board {
     public boolean isGoal() {
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
-                if (board[i][j] != goal[i][j]) {
+                int goal = (i == j && i == size - 1) ? 0 : size * i + j + 1;
+                if (board[i][j] != goal) {
                     return false;
                 }
             }
@@ -90,7 +84,8 @@ public class Board {
         if (this == y) {
             return true;
         }
-        if (y instanceof Board other) {
+        if (y instanceof Board) {
+            Board other = (Board) y;
             return this.size == other.size && Arrays.deepEquals(this.board, other.board);
         }
         return false;
@@ -139,11 +134,23 @@ public class Board {
 
     // a board that is obtained by exchanging any pair of tiles
     public Board twin() {
-        return neighbors().iterator().next();
+        int[][] twin = copyTiles();
+        int r1 = 0, c1 = 0;
+        int r2 = 0, c2 = 1;
+        if (twin[r1][c1] == 0) {
+            r1 = 1;
+        } else if (twin[r2][c2] == 0) {
+            r2 = 1;
+            c2 = 0;
+        }
+        int temp = twin[r1][c1];
+        twin[r1][c1] = twin[r2][c2];
+        twin[r2][c2] = temp;
+        return new Board(twin);
     }
 
     public static void main(String[] args) {
-        int[][] tiles = {{1, 0, 3}, {4, 2, 5}, {7, 8, 6}};
+        int[][] tiles = {{1, 2, 3}, {4, 0, 5}, {7, 8, 6}};
         Board board = new Board(tiles);
         System.out.println(board);
 
