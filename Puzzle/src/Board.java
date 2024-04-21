@@ -84,6 +84,9 @@ public class Board {
         if (this == y) {
             return true;
         }
+        if (y == null) {
+            return false;
+        }
         if (this.getClass() == y.getClass()) {
             Board other = (Board) y;
             return this.size == other.size && Arrays.deepEquals(this.board, other.board);
