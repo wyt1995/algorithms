@@ -32,8 +32,8 @@ public class PointSET {
         return points.contains(p);
     }
 
-    private static void checkNull(Object o) throws IllegalArgumentException {
-        if (o == null) {
+    private static void checkNull(Object obj) {
+        if (obj == null) {
             throw new IllegalArgumentException();
         }
     }
@@ -60,8 +60,8 @@ public class PointSET {
         Point2D nearest = null;
         double minDist = Double.POSITIVE_INFINITY;
         for (Point2D point : points) {
-            if (point.distanceTo(p) < minDist) {
-                minDist = point.distanceTo(p);
+            if (point.distanceSquaredTo(p) < minDist) {
+                minDist = point.distanceSquaredTo(p);
                 nearest = point;
             }
         }
