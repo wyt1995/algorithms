@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 import edu.princeton.cs.algs4.Point2D;
 import edu.princeton.cs.algs4.RectHV;
 import edu.princeton.cs.algs4.StdDraw;
@@ -71,15 +74,15 @@ public class KdTree {
         return size;
     }
 
-    private static void checkNull(Object p) throws IllegalArgumentException {
-        if (p == null) {
+    private static void checkNull(Object obj) {
+        if (obj == null) {
             throw new IllegalArgumentException();
         }
     }
 
     public void insert(Point2D p) {
         checkNull(p);
-        root = insertHelper(p, root, null,true);
+        root = insertHelper(p, root, null, true);
     }
 
     private BSTNode insertHelper(Point2D point, BSTNode node, BSTNode parent, boolean isSmaller) {
@@ -132,9 +135,9 @@ public class KdTree {
 
         int cmp;
         if (node.isXCor) {
-            cmp = Double.compare(node.point.x(), point.x());
+            cmp = Double.compare(point.x(), node.point.x());
         } else {
-            cmp = Double.compare(node.point.y(), point.y());
+            cmp = Double.compare(point.y(), node.point.y());
         }
 
         if (cmp < 0) {
@@ -171,11 +174,78 @@ public class KdTree {
         drawHelper(node.right);
     }
 
+    /**
+     * To find all points contained in a given query rectangle, start at the root
+     * and recursively search for points in both subtrees using the following pruning rule:
+     * if the query rectangle does not intersect the rectangle corresponding to a node,
+     * there is no need to explore that node (or its subtrees).
+     * A subtree is searched only if it might contain a point contained in the query rectangle.
+     */
     public Iterable<Point2D> range(RectHV rect) {
-        return null;
+        checkNull(rect);
+        List<Point2D> result = new ArrayList<>();
+        searchRange(root, rect, result);
+        return result;
+    }
+
+    private void searchRange(BSTNode node, RectHV rect, List<Point2D> points) {
+        if (node == null || !rect.intersects(node.rect)) {
+            return;
+        }
+        if (rect.contains(node.point)) {
+            points.add(node.point);
+        }
+        if (node.left != null && rect.intersects(node.left.rect)) {
+            searchRange(node.left, rect, points);
+        }
+        if (node.right != null && rect.intersects(node.right.rect)) {
+            searchRange(node.right, rect, points);
+        }
     }
 
     public Point2D nearest(Point2D p) {
-        return null;
+        checkNull(p);
+        return nearestHelper(root, p, null, Double.POSITIVE_INFINITY);
+    }
+
+    private Point2D nearestHelper(BSTNode node, Point2D query, Point2D nearest, double distSoFar) {
+        //  if the closest point discovered so far is closer than the distance between the query point
+        //  and the rectangle corresponding to a node, then there is no need to explore that node
+        if (node == null || distSoFar < node.rect.distanceSquaredTo(query)) {
+            return nearest;
+        }
+
+        double distToRoot = query.distanceSquaredTo(node.point);
+        if (distToRoot < distSoFar) {
+            nearest = node.point;
+            distSoFar = distToRoot;
+        }
+
+        BSTNode first, second;
+        double xDiff = query.x() - node.point.x();
+        double yDiff = query.y() - node.point.y();
+        if ((node.isXCor && xDiff < 0) || (!node.isXCor && yDiff < 0)) {
+            first = node.left;
+            second = node.right;
+        } else {
+            first = node.right;
+            second = node.left;
+        }
+        nearest = nearestHelper(first, query, nearest, distSoFar);
+        nearest = nearestHelper(second, query, nearest, query.distanceSquaredTo(nearest));
+        return nearest;
+    }
+
+    public static void main(String[] args) {
+        KdTree kd = new KdTree();
+        kd.insert(new Point2D(0.0, 0.75));
+        kd.insert(new Point2D(0.25, 0.5));
+        kd.insert(new Point2D(0.875, 0.875));
+        kd.insert(new Point2D(0.125, 0.625));
+        kd.insert(new Point2D(1.0, 0.375));
+        Point2D query = new Point2D(0.75, 1.0);
+        Point2D nearest = kd.nearest(query);
+        System.out.println("Nearest point: " + nearest);
+        System.out.println("Nearest distance: " + nearest.distanceSquaredTo(query));
     }
 }
