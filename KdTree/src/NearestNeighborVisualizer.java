@@ -16,9 +16,7 @@ import edu.princeton.cs.algs4.Point2D;
 import edu.princeton.cs.algs4.StdDraw;
 
 public class NearestNeighborVisualizer {
-
     public static void main(String[] args) {
-
         // initialize the two data structures with point from file
         String filename = args[0];
         In in = new In(filename);
@@ -35,7 +33,6 @@ public class NearestNeighborVisualizer {
         // process nearest neighbor queries
         StdDraw.enableDoubleBuffering();
         while (true) {
-
             // the location (x, y) of the mouse
             double x = StdDraw.mouseX();
             double y = StdDraw.mouseY();

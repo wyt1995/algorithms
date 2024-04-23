@@ -4,12 +4,11 @@
  *  Dependencies: PointSET.java KdTree.java
  *
  *  Read points from a file (specified as a command-line argument) and
- *  draw to standard draw. Also draw all of the points in the rectangle
+ *  draw to standard draw. Also draw all the points in the rectangle
  *  the user selects by dragging the mouse.
  *
  *  The range search results using the brute-force algorithm are drawn
  *  in red; the results using the kd-tree algorithms are drawn in blue.
- *
  ******************************************************************************/
 
 import edu.princeton.cs.algs4.In;
@@ -18,9 +17,7 @@ import edu.princeton.cs.algs4.RectHV;
 import edu.princeton.cs.algs4.StdDraw;
 
 public class RangeSearchVisualizer {
-
     public static void main(String[] args) {
-
         // initialize the data structures from file
         String filename = args[0];
         In in = new In(filename);
@@ -48,7 +45,6 @@ public class RangeSearchVisualizer {
         // process range search queries
         StdDraw.enableDoubleBuffering();
         while (true) {
-
             // user starts to drag a rectangle
             if (StdDraw.isMousePressed() && !isDragging) {
                 x0 = x1 = StdDraw.mouseX();

@@ -5,7 +5,6 @@
  *
  *  Add the points that the user clicks in the standard draw window
  *  to a kd-tree and draw the resulting kd-tree.
- *
  ******************************************************************************/
 
 import edu.princeton.cs.algs4.Point2D;
@@ -14,7 +13,6 @@ import edu.princeton.cs.algs4.StdDraw;
 import edu.princeton.cs.algs4.StdOut;
 
 public class KdTreeVisualizer {
-
     public static void main(String[] args) {
         RectHV rect = new RectHV(0.0, 0.0, 1.0, 1.0);
         StdDraw.enableDoubleBuffering();
@@ -35,6 +33,5 @@ public class KdTreeVisualizer {
             }
             StdDraw.pause(20);
         }
-
     }
 }
