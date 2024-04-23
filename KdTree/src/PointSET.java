@@ -5,6 +5,7 @@ import java.util.TreeSet;
 
 import edu.princeton.cs.algs4.Point2D;
 import edu.princeton.cs.algs4.RectHV;
+import edu.princeton.cs.algs4.StdDraw;
 
 public class PointSET {
     private final Set<Point2D> points;
@@ -31,15 +32,15 @@ public class PointSET {
         return points.contains(p);
     }
 
-    private static void checkNull(Object p) throws IllegalArgumentException {
-        if (p == null) {
+    private static void checkNull(Object o) throws IllegalArgumentException {
+        if (o == null) {
             throw new IllegalArgumentException();
         }
     }
 
     public void draw() {
         for (Point2D p : points) {
-            p.draw();
+            StdDraw.point(p.x(), p.y());
         }
     }
 
