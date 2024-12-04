@@ -29,6 +29,7 @@ public class WordNet {
         wordNet = new Digraph(synsets.size());
         readHypernyms(hypernymsFile);
         containsCycle();
+        checkRoot();
 
         sap = new SAP(wordNet);
     }
@@ -68,6 +69,18 @@ public class WordNet {
         DirectedCycle dc = new DirectedCycle(wordNet);
         if (dc.hasCycle()) {
             throw new IllegalArgumentException("Word net has cycle");
+        }
+    }
+
+    private void checkRoot() {
+        int roots = 0;
+        for (int i = 0; i < wordNet.V(); i++) {
+            if (wordNet.outdegree(i) == 0) {
+                roots++;
+            }
+        }
+        if (roots != 1) {
+            throw new IllegalArgumentException("Not a rooted DAG");
         }
     }
 
