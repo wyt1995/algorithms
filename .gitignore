@@ -31,6 +31,6 @@ bin/
 .DS_Store
 
 ### Course ###
-*/inputs/
+inputs/
 library/
 slides/
