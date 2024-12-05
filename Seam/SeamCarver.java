@@ -49,11 +49,9 @@ public class SeamCarver {
         }
         if (energy[x][y] != 0.0) {
 
-        }
-        else if (isBorder(x, y)) {
+        } else if (isBorder(x, y)) {
             energy[x][y] = BORDER;
-        }
-        else {
+        } else {
             energy[x][y] = dualGradient(x, y);
         }
         return energy[x][y];
