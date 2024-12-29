@@ -1,0 +1,10 @@
+*.class
+*.bin
+*.bwt
+*.gif
+*.jpg
+*.huf
+*.mtf
+*.png
+*.txt
+.lift/
