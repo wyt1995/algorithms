@@ -33,9 +33,10 @@ public class MoveToFront {
         String str = BinaryStdIn.readString();
         char[] input = str.toCharArray();
         for (int i = 0; i < input.length; i++) {
-            BinaryStdOut.write(alphabet.get(input[i]));
-            char x = alphabet.remove(input[i]);
-            alphabet.add(0, x);
+            char c = input[i];
+            BinaryStdOut.write(alphabet.get(c));
+            alphabet.remove(c);
+            alphabet.add(0, c);
         }
         BinaryStdOut.close();
     }
