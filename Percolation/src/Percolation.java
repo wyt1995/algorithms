@@ -75,7 +75,7 @@ public class Percolation {
         openSites += 1;
         connectNeighbors(row, col);
         if (openSites >= length) {
-            percolates = unionFind.connected(top, bottom);
+            percolates = unionFind.find(top) == unionFind.find(bottom);
         }
     }
 
@@ -90,7 +90,7 @@ public class Percolation {
         if (!isOpen(row, col)) {
             return false;
         }
-        return withoutBottom.connected(top, index(row, col));
+        return withoutBottom.find(top) == withoutBottom.find(index(row, col));
     }
 
     // returns the number of open sites

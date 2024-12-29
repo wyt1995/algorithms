@@ -50,7 +50,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         if (isEmpty()) {
             throw new NoSuchElementException();
         }
-        int index = StdRandom.uniform(size);
+        int index = StdRandom.uniformInt(size);
         int last = size - 1;
         Item item = items[index];
         items[index] = items[last];
@@ -67,7 +67,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         if (isEmpty()) {
             throw new NoSuchElementException();
         }
-        int index = StdRandom.uniform(size);
+        int index = StdRandom.uniformInt(size);
         return items[index];
     }
 

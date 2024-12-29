@@ -19,8 +19,8 @@ public class PercolationStats {
         for (int i = 0; i < trials; i++) {
             Percolation percolation = new Percolation(size);
             while (!percolation.percolates()) {
-                int row = StdRandom.uniform(size) + 1;
-                int col = StdRandom.uniform(size) + 1;
+                int row = StdRandom.uniformInt(size) + 1;
+                int col = StdRandom.uniformInt(size) + 1;
                 percolation.open(row, col);
             }
             thresholds[i] = (double) percolation.numberOfOpenSites() / (size * size);
